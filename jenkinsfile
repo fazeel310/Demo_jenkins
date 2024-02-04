@@ -16,21 +16,19 @@ pipeline {
             }
         }
 
-        }
-
         stage('Deploy') {
-    steps {
-        // Example: Deploy to XAMPP
-        script {
-            def xamppWebappsDir = '/Applications/XAMPP/xamppfiles/htdocs'
-            def yourAppWarFile = 'target/helloworld.war'
+            steps {
+                // Example: Deploy to XAMPP
+                script {
+                    def xamppWebappsDir = '/Applications/XAMPP/xamppfiles/htdocs'
+                    def yourAppWarFile = 'target/helloworld.war'
 
-            sh "cp ${yourAppWarFile} ${xamppWebappsDir}"
-            //sh '/path/to/xampp/ctlscript.sh restart tomcat'  // Restart XAMPP Tomcat
+                    sh "cp ${yourAppWarFile} ${xamppWebappsDir}"
+                    //sh '/path/to/xampp/ctlscript.sh restart tomcat'  // Restart XAMPP Tomcat
+                }
+            }
         }
-        
     }
-        }
 
     post {
         success {
