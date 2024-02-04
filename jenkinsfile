@@ -1,0 +1,45 @@
+pipeline {
+    agent any
+    
+    stages {
+        stage('Checkout') {
+            steps {
+                // Checkout the code from the GitHub repository
+                git 'https://github.com/Ryanmats66697/Demo_jenkins'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                // Your build steps here
+                sh 'mvn clean install' // Example for Maven build
+            }
+        }
+
+        }
+
+        stage('Deploy') {
+    steps {
+        // Example: Deploy to XAMPP
+        script {
+            def xamppWebappsDir = '/Applications/XAMPP/xamppfiles/htdocs'
+            def yourAppWarFile = 'target/helloworld.war'
+
+            sh "cp ${yourAppWarFile} ${xamppWebappsDir}"
+            //sh '/path/to/xampp/ctlscript.sh restart tomcat'  // Restart XAMPP Tomcat
+        }
+        
+    }
+
+    post {
+        success {
+            // Actions to be taken if the pipeline is successful
+            echo 'Build and deployment successful!'
+        }
+        failure {
+            // Actions to be taken if the pipeline fails
+            echo 'Pipeline failed! Please check the logs for more information.'
+        }
+    }
+}
+//Applications/XAMPP/xamppfiles/htdocs
