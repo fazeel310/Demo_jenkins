@@ -21,7 +21,7 @@ pipeline {
                 // Example: Deploy to XAMPP
                 script {
                     def xamppWebappsDir = '/Applications/XAMPP/xamppfiles/htdocs'
-                    def yourAppWarFile = 'target/helloworld.war'
+                    def yourAppWarFile = 'target/helloworld.java'
 
                     sh "cp ${yourAppWarFile} ${xamppWebappsDir}"
                     //sh '/path/to/xampp/ctlscript.sh restart tomcat'  // Restart XAMPP Tomcat
