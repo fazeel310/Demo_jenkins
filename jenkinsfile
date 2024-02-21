@@ -2,29 +2,31 @@ pipeline {
     agent any
     
     stages {
-        stage('Checkout') {
-            steps {
-                // Checkout the code from the GitHub repository
-                git 'https://github.com/Ryanmats66697/Demo_jenkins'
+     stage('Checkout') {
+    steps {
+        script {
+            git url: 'https://github.com/sumaiyyapatel/Demo_jenkins', branch: 'main'
+        
+    }
+}
+
             }
         }
 
         stage('Build') {
             steps {
-                // Your build steps here
-                sh 'mvn clean install' // Example for Maven build
+                sh 'mvn clean install'
+//install
             }
         }
 
         stage('Deploy') {
             steps {
-                // Example: Deploy to XAMPP
                 script {
                     def xamppWebappsDir = '/Applications/XAMPP/xamppfiles/htdocs'
-                    def yourAppWarFile = 'target/helloworld.java'
+                    def yourAppWarFile = 'target/helloworld.war'
 
                     sh "cp ${yourAppWarFile} ${xamppWebappsDir}"
-                    //sh '/path/to/xampp/ctlscript.sh restart tomcat'  // Restart XAMPP Tomcat
                 }
             }
         }
@@ -32,12 +34,18 @@ pipeline {
 
     post {
         success {
-            // Actions to be taken if the pipeline is successful
-            echo 'Build and deployment successful!'
+            emailext (
+                body: 'The build was successful',
+                subject: 'Build Successful',
+                to: 'ryanmathew66697@gmail.com'
+            )
         }
         failure {
-            // Actions to be taken if the pipeline fails
-            echo 'Pipeline failed! Please check the logs for more information.'
+            emailext (
+                body: 'The build has failed. Please check logs for details',
+                subject: 'Build Failed',
+                to: 'ryanmathew66697@gmail.com'
+            )
         }
     }
 }
