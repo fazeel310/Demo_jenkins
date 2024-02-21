@@ -2,30 +2,25 @@ pipeline {
     agent any
     
     stages {
-     stage('Checkout') {
-    steps {
-        script {
-            git url: 'https://github.com/sumaiyyapatel/Demo_jenkins', branch: 'main'
-        
-    }
-}
-
+        stage('Checkout') {
+            steps {
+                script {
+                    git url: 'https://github.com/sumaiyyapatel/Demo_jenkins', branch: 'main'
+                }
             }
         }
-
+        
         stage('Build') {
             steps {
                 sh 'mvn clean install'
-//install
             }
         }
-
+        
         stage('Deploy') {
             steps {
                 script {
                     def xamppWebappsDir = '/Applications/XAMPP/xamppfiles/htdocs'
                     def yourAppWarFile = 'target/helloworld.war'
-
                     sh "cp ${yourAppWarFile} ${xamppWebappsDir}"
                 }
             }
